@@ -18,7 +18,7 @@ def handle_register_new_promo(register_promo_data: RegisterPromoRequest, user_id
     return promo_to_save
 
 
-def handle_get_all_promos(user_id: int, db: Session):
+def handle_get_all_promos(db: Session):
     try:
         all_promos_query = db.query(Promo)
         all_promos = all_promos_query.all()

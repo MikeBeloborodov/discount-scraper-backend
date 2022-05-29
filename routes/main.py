@@ -57,10 +57,9 @@ def register_promo(register_promo_data: RegisterPromoRequest,
 
 # get all promos
 @app.get("/promo", status_code=status.HTTP_200_OK, response_model=List[GetPromoResponse])
-def get_all_promos(user_id: int = Depends(oauth.get_current_user),
-                    db: Session = Depends(get_db)):
+def get_all_promos(db: Session = Depends(get_db)):
     
-    return handle_get_all_promos(user_id, db)
+    return handle_get_all_promos(db)
 
 
 @app.delete("/promo", status_code=status.HTTP_200_OK, response_model=Message)
