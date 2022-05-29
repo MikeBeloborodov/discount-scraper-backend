@@ -19,7 +19,7 @@ class GetPromoResponse(BaseModel):
     old_price: Optional[str]
     new_price: str
     cathegory: CathegoryEnum
-    weight: str
+    weight: Optional[str]
     img: Optional[HttpUrl]
     website: HttpUrl
     link: HttpUrl

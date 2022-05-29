@@ -30,3 +30,13 @@ def handle_get_all_promos(user_id: int, db: Session):
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Database is empty")
 
     return all_promos
+
+
+def handle_delete_all_promos(user_id: str, db: Session):
+    try:
+        all_promos_query = db.query(Promo)
+        all_promos = all_promos_query.delete()
+        db.commit()
+        return True
+    except:
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")

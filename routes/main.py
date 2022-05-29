@@ -9,7 +9,7 @@ from schemas.register_promo_request import RegisterPromoRequest
 from schemas.register_promo_response import RegisterPromoResponse
 from schemas.get_promo_response import GetPromoResponse
 from handles.user_handles import handle_login_user
-from handles.promo_handles import handle_register_new_promo, handle_get_all_promos
+from handles.promo_handles import *
 from authentication import oauth
 from typing import List
 
@@ -40,7 +40,7 @@ def root() -> Message:
 
 
 # login
-@app.post("/login", status_code=status.HTTP_200_OK, response_model=LoginUserResponse)
+@app.get("/login", status_code=status.HTTP_200_OK, response_model=LoginUserResponse)
 def login_user(login_data: LoginUserRequest,
                 db: Session = Depends(get_db)):
     return handle_login_user(login_data, db)
@@ -54,9 +54,20 @@ def register_promo(register_promo_data: RegisterPromoRequest,
     
     return handle_register_new_promo(register_promo_data, user_id, db)
 
+
 # get all promos
 @app.get("/promo", status_code=status.HTTP_200_OK, response_model=List[GetPromoResponse])
 def get_all_promos(user_id: int = Depends(oauth.get_current_user),
                     db: Session = Depends(get_db)):
     
     return handle_get_all_promos(user_id, db)
+
+
+@app.delete("/promo", status_code=status.HTTP_200_OK, response_model=Message)
+def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
+                    db: Session = Depends(get_db)):
+    answer = handle_delete_all_promos(user_id, db)
+    if answer:
+        return Message(message="OK")
+    else:
+        return Message(message="Error.")
