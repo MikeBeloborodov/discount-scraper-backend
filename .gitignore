@@ -1,3 +1,4 @@
 env
 discount_scraper_backend.egg-info/
 .env
+__pycache__
