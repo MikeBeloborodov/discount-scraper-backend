@@ -17,7 +17,8 @@ class RegisterPromoRequest(BaseModel):
     cathegory: CathegoryEnum
     weight: Optional[str]
     img: Optional[HttpUrl]
-    website: HttpUrl
+    website_link: HttpUrl
+    website_title: str
     link: HttpUrl
     phone_number: str
 

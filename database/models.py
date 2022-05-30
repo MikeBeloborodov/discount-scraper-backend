@@ -27,6 +27,7 @@ class Promo(Base):
     weight = Column(String, nullable=True)
     img = Column(String, nullable=False)
     link = Column(String, nullable=False)
-    website = Column(String, nullable=False)
+    website_link = Column(String, nullable=False)
+    website_title = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
     
