@@ -8,10 +8,11 @@ from schemas.login_user_response import LoginUserResponse
 from schemas.register_promo_request import RegisterPromoRequest
 from schemas.register_promo_response import RegisterPromoResponse
 from schemas.get_promo_response import GetPromoResponse
+from schemas.get_limited_promo_response import GetLimitedPromoResponse
 from handles.user_handles import handle_login_user
 from handles.promo_handles import *
 from authentication import oauth
-from typing import List
+from typing import List, Optional
 
 #Base.metadata.create_all(bind=engine)
 
@@ -62,6 +63,7 @@ def get_all_promos(db: Session = Depends(get_db)):
     return handle_get_all_promos(db)
 
 
+# delete all promos
 @app.delete("/promo", status_code=status.HTTP_200_OK, response_model=Message)
 def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
                     db: Session = Depends(get_db)):
@@ -70,3 +72,20 @@ def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
         return Message(message="OK")
     else:
         return Message(message="Error.")
+
+
+# get limited promos
+@app.get("/promo/slice", status_code=status.HTTP_200_OK, response_model=List[GetLimitedPromoResponse])
+def get_limited_promos(db: Session = Depends(get_db),
+                        limit = 10,
+                        skip = 0):
+    
+    return handle_get_limited_promos(db, limit, skip)
+
+
+# return count of filtered promos
+@app.get("/promo/count", status_code=status.HTTP_200_OK)
+def get_count_promos(db: Session = Depends(get_db),
+                        search: Optional[str] = ""):
+
+    return handle_get_count_promos(db, search)
