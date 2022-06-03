@@ -16,8 +16,8 @@ class GetLimitedPromoResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     title: str
-    old_price: Optional[str]
-    new_price: str
+    old_price: Optional[int]
+    new_price: int
     cathegory: CathegoryEnum
     weight: Optional[str]
     img: Optional[HttpUrl]

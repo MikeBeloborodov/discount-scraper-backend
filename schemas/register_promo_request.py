@@ -12,8 +12,8 @@ class CathegoryEnum(str, Enum):
 
 class RegisterPromoRequest(BaseModel):
     title: str
-    old_price: Optional[str]
-    new_price: str
+    old_price: Optional[int]
+    new_price: int
     cathegory: CathegoryEnum
     weight: Optional[str]
     img: Optional[HttpUrl]

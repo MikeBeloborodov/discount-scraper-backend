@@ -34,13 +34,21 @@ def handle_get_all_promos(db: Session):
     return all_promos
 
 
-def handle_get_limited_promos(db: Session, limit: int, skip: int, website: str):
+def handle_get_limited_promos(db: Session, limit: int, skip: int, website: str, order_by: str):
     try:
         limited_query = db.query(Promo)
+        
         if website:
-            limited_query_promos = limited_query.filter(Promo.website_title == website).offset(skip).limit(limit).all()
-        else:
-            limited_query_promos = limited_query.offset(skip).limit(limit).all()
+            limited_query = limited_query.filter(Promo.website_title == website)
+        if order_by == "price_up":
+            limited_query = limited_query.order_by(Promo.new_price.asc())
+        if order_by == "price_down":
+            limited_query = limited_query.order_by(Promo.new_price.desc())
+
+        limited_query = limited_query.offset(skip).limit(limit)
+
+
+        limited_query_promos = limited_query.all()
     except Exception as execution_error:
         print(f"[{time_stamp()}][!!] Execution error occured: {execution_error}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error.")

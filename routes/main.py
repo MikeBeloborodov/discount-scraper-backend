@@ -111,9 +111,10 @@ def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
 def get_limited_promos(db: Session = Depends(get_db),
                         limit = 10,
                         skip = 0,
-                        website = ''):
+                        website = '',
+                        order_by = 'price_up'):
     
-    return handle_get_limited_promos(db, limit, skip, website)
+    return handle_get_limited_promos(db, limit, skip, website, order_by)
 
 
 # return count of filtered promos
