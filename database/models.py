@@ -1,5 +1,5 @@
 from database.database_logic import Base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.sql.expression import text
 
@@ -31,3 +31,11 @@ class Promo(Base):
     website_title = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
     
+
+class Website(Base):
+    __tablename__ = "websites"
+
+    item_id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(String, nullable=False)
+    link = Column(String, nullable=False)
+    phone_number = Column(String, nullable=False)

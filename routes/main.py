@@ -9,8 +9,12 @@ from schemas.register_promo_request import RegisterPromoRequest
 from schemas.register_promo_response import RegisterPromoResponse
 from schemas.get_promo_response import GetPromoResponse
 from schemas.get_limited_promo_response import GetLimitedPromoResponse
+from schemas.register_website_request import RegisterWebsiteRequest
+from schemas.register_website_response import RegisterWebsiteResponse
+from schemas.get_website_response import GetWebsiteResponse
 from handles.user_handles import handle_login_user
 from handles.promo_handles import *
+from handles.website_handles import *
 from authentication import oauth
 from typing import List, Optional
 
@@ -56,6 +60,34 @@ def register_promo(register_promo_data: RegisterPromoRequest,
     return handle_register_new_promo(register_promo_data, user_id, db)
 
 
+# register new website
+@app.post("/website", status_code=status.HTTP_201_CREATED, response_model=RegisterWebsiteResponse)
+def register_website(register_website_data: RegisterWebsiteRequest,
+                    user_id: int = Depends(oauth.get_current_user),
+                    db: Session = Depends(get_db)):
+
+    return handle_register_new_website(register_website_data, user_id, db)
+
+
+# get all websites
+@app.get("/website", status_code=status.HTTP_200_OK, response_model=List[GetWebsiteResponse])
+def get_all_websites(db: Session = Depends(get_db)):
+
+    return handle_get_all_websites(db)
+
+
+# delete all websites
+@app.delete("/website", status_code=status.HTTP_200_OK, response_model=Message)
+def delete_all_websites(user_id: int = Depends(oauth.get_current_user),
+                    db: Session = Depends(get_db)):
+    
+    answer = handle_delete_all_websites(user_id, db)
+    if answer:
+        return Message(message="OK")
+    else:
+        return Message(message="Error.")
+
+
 # get all promos
 @app.get("/promo", status_code=status.HTTP_200_OK, response_model=List[GetPromoResponse])
 def get_all_promos(db: Session = Depends(get_db)):
@@ -78,9 +110,10 @@ def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
 @app.get("/promo/slice", status_code=status.HTTP_200_OK, response_model=List[GetLimitedPromoResponse])
 def get_limited_promos(db: Session = Depends(get_db),
                         limit = 10,
-                        skip = 0):
+                        skip = 0,
+                        website = ''):
     
-    return handle_get_limited_promos(db, limit, skip)
+    return handle_get_limited_promos(db, limit, skip, website)
 
 
 # return count of filtered promos

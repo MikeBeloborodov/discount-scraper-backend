@@ -34,10 +34,13 @@ def handle_get_all_promos(db: Session):
     return all_promos
 
 
-def handle_get_limited_promos(db: Session, limit: int, skip: int):
+def handle_get_limited_promos(db: Session, limit: int, skip: int, website: str):
     try:
-        limited_query = db.query(Promo).offset(skip).limit(limit)
-        limited_query_promos = limited_query.all()
+        limited_query = db.query(Promo)
+        if website:
+            limited_query_promos = limited_query.filter(Promo.website_title == website).offset(skip).limit(limit).all()
+        else:
+            limited_query_promos = limited_query.offset(skip).limit(limit).all()
     except Exception as execution_error:
         print(f"[{time_stamp()}][!!] Execution error occured: {execution_error}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error.")
@@ -67,3 +70,4 @@ def handle_delete_all_promos(user_id: str, db: Session):
         return True
     except:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error")
+        
