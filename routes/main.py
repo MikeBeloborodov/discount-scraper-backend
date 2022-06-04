@@ -69,11 +69,12 @@ def register_website(register_website_data: RegisterWebsiteRequest,
     return handle_register_new_website(register_website_data, user_id, db)
 
 
-# get all websites
+# get websites
 @app.get("/website", status_code=status.HTTP_200_OK, response_model=List[GetWebsiteResponse])
-def get_all_websites(db: Session = Depends(get_db)):
+def get_all_websites(db: Session = Depends(get_db),
+                    cathegory = ''):
 
-    return handle_get_all_websites(db)
+    return handle_get_websites(db, cathegory)
 
 
 # delete all websites
@@ -111,15 +112,17 @@ def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
 def get_limited_promos(db: Session = Depends(get_db),
                         limit = 10,
                         skip = 0,
+                        cathegory = '',
                         website = '',
                         order_by = 'price_up'):
     
-    return handle_get_limited_promos(db, limit, skip, website, order_by)
+    return handle_get_limited_promos(db, limit, skip, cathegory, website, order_by)
 
 
 # return count of filtered promos
 @app.get("/promo/count", status_code=status.HTTP_200_OK)
 def get_count_promos(db: Session = Depends(get_db),
-                        search: Optional[str] = ""):
+                        cathegory = "",
+                        website = ""):
 
-    return handle_get_count_promos(db, search)
+    return handle_get_count_promos(db, cathegory, website)

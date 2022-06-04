@@ -25,6 +25,7 @@ class Promo(Base):
     old_price = Column(Integer, nullable=True)
     new_price = Column(Integer, nullable=False)
     weight = Column(String, nullable=True)
+    ingredients = Column(String, nullable=True)
     img = Column(String, nullable=False)
     link = Column(String, nullable=False)
     website_link = Column(String, nullable=False)

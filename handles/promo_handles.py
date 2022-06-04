@@ -34,10 +34,11 @@ def handle_get_all_promos(db: Session):
     return all_promos
 
 
-def handle_get_limited_promos(db: Session, limit: int, skip: int, website: str, order_by: str):
+def handle_get_limited_promos(db: Session, limit: int, skip: int, cathegory: str, website: str, order_by: str):
     try:
         limited_query = db.query(Promo)
-        
+        if cathegory:
+            limited_query = limited_query.filter(Promo.cathegory == cathegory)
         if website:
             limited_query = limited_query.filter(Promo.website_title == website)
         if order_by == "price_up":
@@ -56,12 +57,13 @@ def handle_get_limited_promos(db: Session, limit: int, skip: int, website: str, 
     return limited_query_promos
 
 
-def handle_get_count_promos(db: Session, search: Optional[str]):
+def handle_get_count_promos(db: Session, cathegory: str, website: str):
     try:
-        if search != "":
-            count_query = db.query(Promo).filter(Promo.website_title == search)
-        else:
-            count_query = db.query(Promo)
+        count_query = db.query(Promo)
+        if cathegory:
+            count_query = count_query.filter(Promo.cathegory == cathegory)
+        if website:
+            count_query = count_query.filter(Promo.website_title == website)
         count = count_query.count()
     except Exception as execution_error:
         print(f"[{time_stamp()}][!!] Execution error occured: {execution_error}")

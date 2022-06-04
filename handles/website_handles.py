@@ -19,18 +19,20 @@ def handle_register_new_website(register_website_data: RegisterWebsiteRequest, u
     return website_to_save
 
 
-def handle_get_all_websites(db: Session):
+def handle_get_websites(db: Session, cathegory: str):
     try:
-        all_websites_query = db.query(Website)
-        all_websites = all_websites_query.all()
+        websites_query = db.query(Website)
+        if cathegory:
+            websites_query = websites_query.filter(Website.cathegory == cathegory)
+        websites = websites_query.all()
     except Exception as execution_error:
         print(f"[{time_stamp()}][!!] Execution error occured while saving item to db: {execution_error}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal server error.")
 
-    if not all_websites:
+    if not websites:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Database is empty")
 
-    return all_websites
+    return websites
 
 
 def handle_delete_all_websites(user_id: str, db: Session):
