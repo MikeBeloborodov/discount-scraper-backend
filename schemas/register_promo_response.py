@@ -9,6 +9,10 @@ class CathegoryEnum(str, Enum):
     pizza = 'pizza'
     kebab = 'kebab'
     fast_food = 'fast_food'
+    shawarma = 'shawarma'
+    dumplings = 'dumplings'
+    pie = 'pie'
+    burger = 'burger'
 
 
 class RegisterPromoResponse(BaseModel):
