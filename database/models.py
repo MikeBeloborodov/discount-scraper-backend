@@ -39,3 +39,4 @@ class Website(Base):
     title = Column(String, nullable=False)
     link = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
+    cathegory = Column(String, nullable=False)
