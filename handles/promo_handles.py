@@ -34,7 +34,7 @@ def handle_get_all_promos(db: Session):
     return all_promos
 
 
-def handle_get_limited_promos(db: Session, limit: int, skip: int, cathegory: str, website: str, order_by: str):
+def handle_get_limited_promos(limit: int, db: Session, skip: int, cathegory: str, website: str, order_by: str):
     try:
         limited_query = db.query(Promo)
         if cathegory:
@@ -42,9 +42,9 @@ def handle_get_limited_promos(db: Session, limit: int, skip: int, cathegory: str
         if website:
             limited_query = limited_query.filter(Promo.website_title == website)
         if order_by == "price_up":
-            limited_query = limited_query.order_by(Promo.new_price.asc())
+            limited_query = limited_query.order_by(Promo.new_price.asc(), Promo.title)
         if order_by == "price_down":
-            limited_query = limited_query.order_by(Promo.new_price.desc())
+            limited_query = limited_query.order_by(Promo.new_price.desc(), Promo.title)
 
         limited_query = limited_query.offset(skip).limit(limit)
 

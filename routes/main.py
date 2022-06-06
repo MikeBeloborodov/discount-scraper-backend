@@ -109,14 +109,14 @@ def delete_all_promos(user_id: int = Depends(oauth.get_current_user),
 
 # get limited promos
 @app.get("/promo/slice", status_code=status.HTTP_200_OK, response_model=List[GetLimitedPromoResponse])
-def get_limited_promos(db: Session = Depends(get_db),
-                        limit = 10,
+def get_limited_promos(limit: Optional[int],
+                        db: Session = Depends(get_db),
                         skip = 0,
                         cathegory = '',
                         website = '',
                         order_by = 'price_up'):
     
-    return handle_get_limited_promos(db, limit, skip, cathegory, website, order_by)
+    return handle_get_limited_promos(limit, db, skip, cathegory, website, order_by)
 
 
 # return count of filtered promos
