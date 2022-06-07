@@ -2,7 +2,7 @@ from enum import Enum
 from pydantic import BaseModel, HttpUrl
 
 
-class CathegoryEnum(str, Enum):
+class CategoryEnum(str, Enum):
     sushi = 'sushi'
     pizza = 'pizza'
     kebab = 'kebab'
@@ -18,7 +18,7 @@ class RegisterWebsiteResponse(BaseModel):
     title: str
     link: HttpUrl
     phone_number: str
-    cathegory: CathegoryEnum
+    category: CategoryEnum
 
     class Config:
         orm_mode = True

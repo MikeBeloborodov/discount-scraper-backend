@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 
 
-class CathegoryEnum(str, Enum):
+class CategoryEnum(str, Enum):
     sushi = 'sushi'
     pizza = 'pizza'
     kebab = 'kebab'
@@ -22,7 +22,7 @@ class GetLimitedPromoResponse(BaseModel):
     title: str
     old_price: Optional[int]
     new_price: int
-    cathegory: CathegoryEnum
+    category: CategoryEnum
     weight: Optional[str]
     ingredients: Optional[str]
     img: Optional[HttpUrl]

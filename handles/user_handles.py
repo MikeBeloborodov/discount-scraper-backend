@@ -7,13 +7,14 @@ from authentication import oauth
 from schemas.login_user_request import LoginUserRequest
 from schemas.login_user_response import LoginUserResponse
 
+
 def handle_login_user(login_data: LoginUserRequest, db: Session):
-     # retrieve user from db
+    # retrieve user from db
     try:
         user_query = db.query(User).filter(User.email == login_data.email)
         found_user = user_query.first()
     except Exception as user_validation_error:
-        print(f"[{time_stamp()}][!!] Error occured during user search in db: {user_validation_error.username}")
+        print(f"[{time_stamp()}][!!] Error occurred during user search in db: {user_validation_error}")
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database internal error during user search")
 
     if not found_user:
@@ -25,6 +26,6 @@ def handle_login_user(login_data: LoginUserRequest, db: Session):
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail="Wrong credentials.")
 
     # if everything is okay we send data back
-    access_token = oauth.create_access_token(data = {"user_id" : found_user.user_id})
+    access_token = oauth.create_access_token(data={"user_id": found_user.user_id})
 
     return LoginUserResponse(access_token=access_token, token_type="bearer")

@@ -14,13 +14,14 @@ class User(Base):
     updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     privileges = Column(String, nullable=False, server_default=text('user'))
 
+
 class Promo(Base):
     __tablename__ = "promo"
 
     item_id = Column(Integer, primary_key=True, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    cathegory = Column(String, nullable=False)
+    category = Column(String, nullable=False)
     title = Column(String, nullable=False)
     old_price = Column(Integer, nullable=True)
     new_price = Column(Integer, nullable=False)
@@ -40,4 +41,4 @@ class Website(Base):
     title = Column(String, nullable=False)
     link = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
-    cathegory = Column(String, nullable=False)
+    category = Column(String, nullable=False)

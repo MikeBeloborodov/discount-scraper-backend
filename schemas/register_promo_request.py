@@ -3,7 +3,7 @@ from typing import Optional
 from enum import Enum
 
 
-class CathegoryEnum(str, Enum):
+class CategoryEnum(str, Enum):
     sushi = 'sushi'
     pizza = 'pizza'
     kebab = 'kebab'
@@ -14,12 +14,11 @@ class CathegoryEnum(str, Enum):
     combo = 'combo'
 
 
-
 class RegisterPromoRequest(BaseModel):
     title: str
     old_price: Optional[int]
     new_price: int
-    cathegory: CathegoryEnum
+    category: CategoryEnum
     weight: Optional[str]
     ingredients: Optional[str]
     img: Optional[HttpUrl]

@@ -16,7 +16,8 @@ def create_access_token(data: dict) -> str:
         to_encode.update({"exp": expire})
 
         # payload, secret key, algorithm
-        encoded_jwt = jwt.encode(to_encode, global_settings.settings.secret_key, algorithm=global_settings.settings.algorithm)
+        encoded_jwt = jwt.encode(to_encode, global_settings.settings.secret_key,
+                                 algorithm=global_settings.settings.algorithm)
 
         return encoded_jwt
     except JWTError as error:
@@ -26,7 +27,8 @@ def create_access_token(data: dict) -> str:
 
 def verify_access_token(token: str, credentials_exception):
     try:
-        payload = jwt.decode(token, global_settings.settings.secret_key, algorithms=[global_settings.settings.algorithm])
+        payload = jwt.decode(token, global_settings.settings.secret_key,
+                             algorithms=[global_settings.settings.algorithm])
         user_id = payload.get("user_id")
 
         if user_id is None:
@@ -40,6 +42,8 @@ def verify_access_token(token: str, credentials_exception):
 
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials", headers={"WWW-Authenticate" : "Bearer"})
+    credentials_exception = HTTPException(status.HTTP_401_UNAUTHORIZED,
+                                          detail="Could not validate credentials",
+                                          headers={"WWW-Authenticate": "Bearer"})
 
     return verify_access_token(token, credentials_exception)
