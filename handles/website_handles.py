@@ -23,7 +23,7 @@ def handle_get_websites(db: Session, category: str):
     try:
         websites_query = db.query(Website)
         if category:
-            websites_query = websites_query.filter(Website.cathegory == category)
+            websites_query = websites_query.filter(Website.category == category)
         websites = websites_query.all()
     except Exception as execution_error:
         print(f"[{time_stamp()}][!!] Execution error occurred while saving item to db: {execution_error}")

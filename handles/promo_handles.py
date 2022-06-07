@@ -37,7 +37,7 @@ def handle_get_limited_promos(limit: int, db: Session, skip: int, category: str,
     try:
         limited_query = db.query(Promo)
         if category:
-            limited_query = limited_query.filter(Promo.cathegory == category)
+            limited_query = limited_query.filter(Promo.category == category)
         if website:
             limited_query = limited_query.filter(Promo.website_title == website)
         if order_by == "price_up":
@@ -59,7 +59,7 @@ def handle_get_count_promos(db: Session, category: str, website: str):
     try:
         count_query = db.query(Promo)
         if category:
-            count_query = count_query.filter(Promo.cathegory == category)
+            count_query = count_query.filter(Promo.category == category)
         if website:
             count_query = count_query.filter(Promo.website_title == website)
         count = count_query.count()
