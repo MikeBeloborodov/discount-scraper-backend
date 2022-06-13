@@ -6,24 +6,26 @@ _evalBg(){
 }
 # Commands
 backend_cmd="uvicorn routes.main:app --reload";
-frontend_cmd="npm start"
+frontend_cmd="npm start";
 
 # Backend startup
 echo "Starting backend server ...";
 cd ./backend;
+source env/bin/activate;
 _evalBg "${backend_cmd}";
+deactivate;
 echo "Backend startup complete.";
 
 # Frontend startup
 echo " ";
-echo Starting frontend server ...
-cd ..
-cd ./frontend/discount-frontend
-_evalBg "${frontend_cmd}"
-echo Frontend server started.
+echo "Starting frontend server ...";
+cd ..;
+cd ./frontend/discount-frontend;
+_evalBg "${frontend_cmd}";
+echo "Frontend server started.";
 
 # Exit
-cd ..
-cd ..
+cd ..;
+cd ..;
 echo " ";
-echo Script exited with no erorrs.
+echo "Script exited with no erorrs.";
